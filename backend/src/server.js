@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
 import { connectDB } from "./config/db.js";
+import setRoutes from "./routes/setRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,8 @@ if(process.env.NODE_ENV !== "production") {
 
 app.use(express.json());
 // use rateLimiter
+app.use("/api", setRoutes);
+
 app.get("/", (req, res) => {
     res.send("Server running!");
 })
