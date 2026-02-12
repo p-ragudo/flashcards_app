@@ -4,6 +4,10 @@ import { nanoid } from "nanoid";
 export async function getSetViewId(req, res) {
     try {
         const { viewId } = req.params;
+        if(!viewId) {
+            return res.status(404).json({message: "viewId is required"});
+        }
+        
         const flashcardSet = await FlashcardSet.findOne({ viewId });
 
         if(!flashcardSet) {
@@ -20,6 +24,10 @@ export async function getSetViewId(req, res) {
 export async function getSetEditId(req, res) {
     try {
         const { editId } = req.params;
+        if(!editId) {
+            return res.status(404).json({message: "editId is required"});
+        }
+
         const flashcardSet = await FlashcardSet.findOne({ editId });
 
         if(!flashcardSet) {
@@ -36,6 +44,11 @@ export async function getSetEditId(req, res) {
 export async function createSet(req, res) {
     try {
         const { title } = req.body;
+
+        if(!title) {
+            return res.status(400).json({message: "Title is required!"});
+        }
+
         const newSet = new FlashcardSet({
             title,
             editId: nanoid(24),
@@ -53,6 +66,10 @@ export async function createSet(req, res) {
 export async function deleteSetEditId(req, res) {
     try {
         const { editId } = req.params;
+        if(!editId) {
+            return res.status(404).json({message: "editId is required"});
+        }
+
         const flashcardSet = await FlashcardSet.findOneAndDelete({ editId });
 
         if(!flashcardSet) {

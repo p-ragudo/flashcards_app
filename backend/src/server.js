@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
 import { connectDB } from "./config/db.js";
-import setRoutes from "./routes/setRoutes.js";
+import flashcardSetRoutes from "./routes/flashcardSetRoutes.js";
+import flashcardRoutes from "./routes/flashcardRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -18,8 +19,8 @@ if(process.env.NODE_ENV !== "production") {
 
 app.use(express.json());
 // use rateLimiter
-app.use("/api", setRoutes);
-
+app.use("/api/flashcard-sets", flashcardSetRoutes);
+app.use("/api/flashcards", flashcardRoutes);
 app.get("/", (req, res) => {
     res.send("Server running!");
 })
