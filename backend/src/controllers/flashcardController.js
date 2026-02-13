@@ -6,16 +6,13 @@ export async function createFlashcard(req, res) {
         const { editId } = req.params;
         const { question, answer } = req.body;
 
-        if(!editId) {
-            return res.status(404).json({message: `Missing, could not find editId param, or could not validate with editId: ${editId}`});
-        }
         if(!question || !answer) {
             return res.status(400).json({bad_request: "Missing fields. Required: 'question, answer'"});
         }
 
         const flashcardSet = await FlashcardSet.findOne({ editId });
         if(!flashcardSet) {
-            return res.status(404).json({message: `Could not find flashcardSet with id ${editId}`});
+            return res.status(404).json({message: `Could not find or validate flashcardSet with id ${editId}`});
         }
 
         const flashcard = new Flashcard({
@@ -36,9 +33,6 @@ export async function deleteFlashcard(req, res) {
     try {
         const { editId, id } = req.params;
 
-        if(!editId || !id) {
-            return res.status(400).json({bad_request: "Missing params. Required: editId, id"});
-        }
         const flashcardSet = await FlashcardSet.findOne({editId});
         if(!flashcardSet) {
             return res.status(401).json({unathorized: `Could not find flashcard set or validate with editId: ${editId}`});

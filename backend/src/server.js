@@ -18,7 +18,6 @@ if(process.env.NODE_ENV !== "production") {
 }
 
 app.use(express.json());
-// use rateLimiter
 app.use("/api/flashcard-sets", flashcardSetRoutes);
 app.use("/api/flashcards", flashcardRoutes);
 app.get("/", (req, res) => {
