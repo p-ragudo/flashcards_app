@@ -1,43 +1,60 @@
 import FlashcardSet from "../models/FlashcardSet.js";
+import Flashcard from "../models/Flashcard.js";
 import { nanoid } from "nanoid";
 
-export async function getSetViewId(req, res) {
+export async function getSetByViewId(req, res) {
     try {
         const { viewId } = req.params;
         if(!viewId) {
-            return res.status(404).json({message: "viewId is required"});
+            return res.status(400).json({message: "Missing params: id"});
         }
         
         const flashcardSet = await FlashcardSet.findOne({ viewId });
-
         if(!flashcardSet) {
             return res.status(404).json({message: `Could not find a flashcard set with id: ${viewId}`});
         }
 
-        res.status(200).json(flashcardSet);
+        const flashcards = await Flashcard.find({setId: flashcardSet._id});
+        if(!flashcards) {
+            return res.status(404).json({error: "Could not find flashcards!"});
+        }
+
+        res.status(200).json({
+            title: flashcardSet.title,
+            count: flashcards.length,
+            flashcards: flashcards
+        });
     } catch(error) {
         res.status(404).json({message: `Could not find a flashcard set with id: ${viewId}`});
         console.log("Error in getSetViewId", error);
     }
 }
 
-export async function getSetEditId(req, res) {
+export async function getSetByEditId(req, res) {
     try {
         const { editId } = req.params;
         if(!editId) {
-            return res.status(404).json({message: "editId is required"});
+            return res.status(400).json({message: "Missing params: id"});
         }
-
+        
         const flashcardSet = await FlashcardSet.findOne({ editId });
-
         if(!flashcardSet) {
-            return res.status(404).json({message: `Could not find a flashcard set with id: ${editId}`});
+            return res.status(404).json({message: `Could not find a flashcard set or validate with id: ${editId}`});
         }
 
-        res.status(200).json(flashcardSet);
+        const flashcards = await Flashcard.find({setId: flashcardSet._id});
+        if(!flashcards) {
+            return res.status(404).json({error: "Could not find flashcards!"});
+        }
+
+        res.status(200).json({
+            title: flashcardSet.title,
+            count: flashcards.length,
+            flashcards: flashcards
+        });
     } catch(error) {
         res.status(404).json({message: `Could not find a flashcard set with id: ${editId}`});
-        console.log("Error in getSetEditId", error);
+        console.log("Error in getSetViewId", error);
     }
 }
 
@@ -63,18 +80,20 @@ export async function createSet(req, res) {
     }
 }
 
-export async function deleteSetEditId(req, res) {
+export async function deleteSetByEditId(req, res) {
     try {
         const { editId } = req.params;
         if(!editId) {
-            return res.status(404).json({message: "editId is required"});
+            return res.status(400).json({message: "Missing params: id"});
         }
 
-        const flashcardSet = await FlashcardSet.findOneAndDelete({ editId });
-
+        const flashcardSet = await FlashcardSet.findOne({ editId });
         if(!flashcardSet) {
-            return res.status(404).json({message: `Could not find flashcard set with id: ${editId}`});
+            return res.status(404).json({message: `Could not find flashcard set or validate with id: ${editId}`});
         }
+
+        await Flashcard.deleteMany({setId: flashcardSet._id});
+        await FlashcardSet.deleteOne({editId});
 
         res.status(200).json({message: "Successfully deleted flashcard set"});
     } catch(error) {
