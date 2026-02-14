@@ -20,7 +20,8 @@ if(process.env.NODE_ENV !== "production") {
 app.use(express.json());
 app.use("/api/flashcard-sets", flashcardSetRoutes);
 app.use("/api/flashcards", flashcardRoutes);
-app.get("/", (req, res) => {
+
+app.get("/", (_, res) => {
     res.send("Server running!");
 })
 
