@@ -1,13 +1,23 @@
 import Flashcard from "../models/Flashcard.js";
 import FlashcardSet from "../models/FlashcardSet.js";
+import { multipleChoiceStr } from "../models/Flashcard.js";
 
 export async function createFlashcard(req, res) {
     try {
         const { editId } = req.params;
-        const { question, answer } = req.body;
+        const { question, answer, cardType, options, correctIndices } = req.body;
 
         if(!question || !answer) {
-            return res.status(400).json({bad_request: "Missing fields. Required: 'question, answer'"});
+            return res.status(400).json({bad_request: "Missing params in body. Required: 'question, answer, cardType, options, correctIndices'"});
+        }
+
+        if(cardType === multipleChoiceStr) {
+            if(!options || options.length < 2) {
+                return res.status(400).json({bad_request: "Multiple choice requires at least 2 options"});
+            }
+            if(!correctIndices || correctIndices.length === 0) {
+                return res.status(400).json({bad_request: "correctIndices requires at least 1 correct index"});
+            }
         }
 
         const flashcardSet = await FlashcardSet.findOne({ editId });
@@ -17,8 +27,11 @@ export async function createFlashcard(req, res) {
 
         const flashcard = new Flashcard({
             setId: flashcardSet._id,
+            cardType: cardType,
             question: question,
-            answer: answer
+            answer: answer,
+            options: cardType === multipleChoiceStr ? options : [],
+            correctIndices: cardType === multipleChoiceStr ? correctIndices : []
         });
 
         await flashcard.save();

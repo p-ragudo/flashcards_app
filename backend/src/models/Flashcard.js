@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+export const basicStr = 'basic';
+export const multipleChoiceStr = 'multiple-choice';
+
 const flashcardSchema = new mongoose.Schema(
     {
         setId: {
@@ -10,8 +13,8 @@ const flashcardSchema = new mongoose.Schema(
         },
         cardType: {
             type: String,
-            enum: ['basic', 'multiple-choice'],
-            default: 'basic'
+            enum: [basicStr, multipleChoiceStr],
+            default: basicStr
         },
         question: {
             type: String,
@@ -23,6 +26,9 @@ const flashcardSchema = new mongoose.Schema(
         },
         options: [
             {type: String}
+        ],
+        correctIndices: [
+            {type: Number}
         ],
         orderIndex: {
             type: Number,
