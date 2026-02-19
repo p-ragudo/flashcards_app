@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router";
-import toast from "react-hot-toast";
 
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/Home/HomePage";
 import ViewPage from "./pages/ViewPage";
 import EditPage from "./pages/EditPage";
 

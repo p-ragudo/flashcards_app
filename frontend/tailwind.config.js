@@ -13,6 +13,12 @@ export default {
     daisyui,
   ],
   daisyui: {
-    themes: ["light"]
+    themes: [
+      {
+        myTheme: {
+          "--primary": "#FF0004"
+        }
+      }
+    ]
   },
 }
