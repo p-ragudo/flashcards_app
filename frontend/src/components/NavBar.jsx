@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router';
 
 const NavBar = () => {
-
     const navigate = useNavigate();
 
     const handleNavigate = () => {
@@ -9,7 +8,7 @@ const NavBar = () => {
     }
 
     return (
-    <div className="w-full flex justify-between">
+    <div className="w-full flex justify-between bg-[#DDDDE5]">
         <a
         href="/"
         className="text-[#334758] text-2xl font-bold"

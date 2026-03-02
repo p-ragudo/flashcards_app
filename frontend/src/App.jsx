@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 
 import HomePage from "./pages/Home/HomePage";
 import ViewPage from "./pages/ViewPage";
-import SetEditorPage from "./pages/SetEditorPage";
+import SetEditorPage from "./pages/SetEditor/SetEditorPage";
 
 const App = () => {
   return (
