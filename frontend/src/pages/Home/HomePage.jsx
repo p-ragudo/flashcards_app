@@ -7,7 +7,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto flex flex-col px-3 justify-between">
+    <div className="min-h-screen max-w-6xl mx-auto flex flex-col px-3 justify-between">
 
       <div className="absolute inset-0 -z-10 h-full w-full bg-white
       bg-[linear-gradient(to_right,rgba(0,0,0,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.12)_1px,transparent_1px)] 
