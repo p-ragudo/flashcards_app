@@ -1,9 +1,9 @@
-import { ArrowLeftRight, Trash2 } from "lucide-react";
+import { ArrowLeftRight, Trash2, Settings2 } from "lucide-react";
 
 const FlashCardEditComponent = ({number}) => {
 
   return (
-    <div className="w-full bg-white rounded-lg">
+    <div className="w-full bg-white rounded-lg shadow-md">
       <div className="flex flex-col px-6 py-5">
         <div className="w-full flex justify-between mb-10">
             <h3 className="font-medium text-[#334758] text-[1.4rem]">
@@ -19,7 +19,7 @@ const FlashCardEditComponent = ({number}) => {
             </div>
         </div>
 
-        <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-10 mb-6">
             <div className="flex flex-col gap-2">
                 <input 
                 type="text"
@@ -31,15 +31,23 @@ const FlashCardEditComponent = ({number}) => {
                 </p>
             </div>
 
-            <div className="flex flex-col gap-2">
-                <input 
-                type="text"
-                placeholder="Enter back term..."
-                className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
-                />
-                <p className="font-medium text-[#334758] text-sm">
-                    BACK
-                </p>
+            <div className="flex flex-col gap-3">
+                <div className="flex justify-end">
+                    <button className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors">
+                        <Settings2 size={16} />
+                        Turn to Multiple Choice
+                    </button>
+                </div>
+                <div className="flex flex-col gap-2">
+                    <input 
+                    type="text"
+                    placeholder="Enter back term..."
+                    className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
+                    />
+                    <p className="font-medium text-[#334758] text-sm">
+                        BACK
+                    </p>
+                </div>
             </div>
         </div>
       </div>

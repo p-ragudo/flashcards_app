@@ -8,7 +8,7 @@ const NavBar = () => {
     }
 
     return (
-    <div className="w-full flex justify-between bg-[#DDDDE5]">
+    <div className="w-full flex justify-between bg-[#DDDDE5] pb-4">
         <a
         href="/"
         className="text-[#334758] text-2xl font-bold"

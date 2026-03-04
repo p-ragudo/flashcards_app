@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import CreateSetCardComponent from "./CreateSetCardComponent";
 import toast from "react-hot-toast";
 import FlashCardEditComponent from "./FlashCardEditComponent";
+import ChoiceCardEditComponent from "./ChoiceCardEditComponent";
 
 const SetEditorPage = () => {
   const [title, setTitle] = useState("Title");
@@ -32,18 +33,21 @@ const SetEditorPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#DDDDE5]">
-      <div className="max-w-6xl w-full mx-auto px-3 pb-24">
-        <div className="sticky top-0 z-50 bg-[#DDDDE5] pt-3 mb-12">
+      <div className="flex justify-center sticky top-0 z-50 bg-[#DDDDE5] pt-3 mb-6">
+        <div className="w-full max-w-6xl px-3">
           <NavBar />
         </div>
+      </div>
 
+      <div className="max-w-6xl w-full mx-auto px-3 pb-24">
         <CreateSetCardComponent
           onDelete={handleDelete}
           onShare={handleShare}
           onSave={handleSave}
         />
 
-        <div className="w-full bg-white rounded-lg mt-6 mb-24">
+        {/* Title and Description */}
+        <div className="w-full bg-white rounded-lg mt-6 mb-24 shadow-md">
           <div className="flex flex-col px-6 py-5 gap-3">
             <input 
               type="text"
@@ -65,8 +69,7 @@ const SetEditorPage = () => {
 
         <div className="flex flex-col gap-12">
           <FlashCardEditComponent number={1} />
-          <FlashCardEditComponent number={2} />
-          <FlashCardEditComponent number={3} />
+          <ChoiceCardEditComponent number={2} />
         </div>
       </div>
     </div>

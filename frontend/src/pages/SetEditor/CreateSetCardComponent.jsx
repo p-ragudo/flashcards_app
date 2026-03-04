@@ -2,7 +2,7 @@ import { Trash2, Globe } from 'lucide-react';
 
 const CreateSetCardComponent = ({onDelete, onShare, onSave}) => {
   return (
-    <div className="w-full bg-white rounded-lg">
+    <div className="w-full bg-white rounded-lg shadow-md">
         <div className="flex flex-col md:flex-row justify-evenly md:justify-between px-8 py-5">
             <div className="mb-3 md:mb-0">
               <h3 className="text-[#334758] font-semibold text-[1.3rem] pt-1.5">
