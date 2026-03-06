@@ -1,8 +1,10 @@
 import { Trash2, Settings2, ToggleLeft, ToggleRight } from "lucide-react";
 import { useState } from "react";
+import { ToggleSwitch } from "../../components/ToggleSwitch";
 
 const ChoiceCardEditComponent = ({number}) => {
     const [isMultipleChoice, setIsMultipleChoice] = useState(false);
+    const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
 
     const handleMultipleChoiceToggle = e => {
         setIsMultipleChoice(prev => !prev);
@@ -38,16 +40,16 @@ const ChoiceCardEditComponent = ({number}) => {
                         MULTIPLE CHOICE QUESTIONS
                     </p>
                     <div className="flex md:justify-evenly gap-10">
-                        <button className="
-                            flex justify-evenly gap-3 items-center"
-                            onClick={handleMultipleChoiceToggle}
-                        >
-                            {
-                                isMultipleChoice ? <ToggleRight size={30} color={"#334758"} /> 
-                                : <ToggleLeft size={30} color={"#334758"} />
-                            }
+                        <div className="flex gap-3">
+                            <ToggleSwitch 
+                                isToggled={isRandomizeChoices}
+                                onClick={() => setIsRandomizeChoices(!isRandomizeChoices)}
+                                widthHeight="w-9 h-6"
+                                knobSize="w-4 h-4"
+                                translateDist="translate-x-3.5"
+                            />
                             <span className="font-medium text-[#334758]">Randomize choices</span>
-                        </button>
+                        </div>
                         <button className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors">
                             <Settings2 size={16} />
                             Turn to flashcard
@@ -65,6 +67,7 @@ const ChoiceCardEditComponent = ({number}) => {
                     </p>
                 </div>
             </div>
+
         </div>
       </div>
     </div>
