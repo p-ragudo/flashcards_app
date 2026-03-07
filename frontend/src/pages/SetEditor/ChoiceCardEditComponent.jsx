@@ -1,13 +1,17 @@
 import { Trash2, Settings2, ToggleLeft, ToggleRight } from "lucide-react";
 import { useState } from "react";
 import { ToggleSwitch } from "../../components/ToggleSwitch";
+import OptionComponent from "./OptionComponent";
 
 const ChoiceCardEditComponent = ({number}) => {
     const [isMultipleChoice, setIsMultipleChoice] = useState(false);
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
 
-    const handleMultipleChoiceToggle = e => {
-        setIsMultipleChoice(prev => !prev);
+    // test data for OptionComponent
+    const data = {
+        order: 1,
+        content: "This is option 1",
+        isCorrect: true
     }
 
   return (
@@ -35,12 +39,12 @@ const ChoiceCardEditComponent = ({number}) => {
             </div>
 
             <div className="flex flex-col gap-3">
-                <div className="w-full flex flex-col md:flex-row md:justify-between">
-                    <p className="flex font-medium text-[#334758] text-sm sm:mb-6">
+                <div className="w-full flex flex-col md:flex-row md:justify-between sm:items-start md:items-center mb-6">
+                    <p className="flex font-medium text-[#334758] text-sm mb-2 md:mb-0">
                         MULTIPLE CHOICE QUESTIONS
                     </p>
                     <div className="flex md:justify-evenly gap-10">
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 items-center">
                             <ToggleSwitch 
                                 isToggled={isRandomizeChoices}
                                 onClick={() => setIsRandomizeChoices(!isRandomizeChoices)}
@@ -56,16 +60,7 @@ const ChoiceCardEditComponent = ({number}) => {
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                    <input 
-                    type="text"
-                    placeholder="Enter back term..."
-                    className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
-                    />
-                    <p className="font-medium text-[#334758] text-sm">
-                        BACK
-                    </p>
-                </div>
+                <OptionComponent data={data} />
             </div>
 
         </div>
