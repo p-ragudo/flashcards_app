@@ -4,7 +4,6 @@ import { ToggleSwitch } from "../../components/ToggleSwitch";
 import OptionComponent from "./OptionComponent";
 
 const ChoiceCardEditComponent = ({number}) => {
-    const [isMultipleChoice, setIsMultipleChoice] = useState(false);
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
 
     // test data for OptionComponent
