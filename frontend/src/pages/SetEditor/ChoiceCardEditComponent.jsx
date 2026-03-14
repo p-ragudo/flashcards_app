@@ -5,6 +5,18 @@ import OptionComponent from "./OptionComponent";
 
 const ChoiceCardEditComponent = ({number}) => {
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
+    const [options, setOptions] = useState([
+        {id: crypto.randomUUID(), text: "", isCorrect: false}
+    ])
+    const [isChecked, setIsChecked] = useState(false);
+
+    const toggleCorrect = (id) => {
+        setOptions(prevOptions => {
+            prevOptions.map(option => {
+                option.id === id ? {...option, isCorrect: !option.isCorrect} : option
+            });
+        });
+    }
 
     // test data for OptionComponent
     const data = {
@@ -59,7 +71,7 @@ const ChoiceCardEditComponent = ({number}) => {
                         </button>
                     </div>
                 </div>
-                <OptionComponent data={data} />
+                <OptionComponent data={data} onCheck={() => setIsChecked(!isChecked)} isChecked={isChecked}/>
             </div>
 
         </div>

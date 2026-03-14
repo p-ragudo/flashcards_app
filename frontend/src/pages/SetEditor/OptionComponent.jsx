@@ -1,4 +1,6 @@
-const OptionComponent = ({ data, onMarkAsCorrect, onRemove }) => {
+import Checkbox from "../../components/Checkbox";
+
+const OptionComponent = ({ data, onCheck, isChecked, onRemove}) => {
   return (
     <div className="grid grid-cols-2 md:flex md:flex-row md:justify-between md:items-center">
         <span className="text-[#8C8C8C] font-medium order-1 md:mr-10">
@@ -11,10 +13,15 @@ const OptionComponent = ({ data, onMarkAsCorrect, onRemove }) => {
               w-full md:flex-1 p-1 outline-none border-b border-b-[#334758] text-[#334758] text-[1rem] font-normal
               order-3 col-span-2 md:order-2 md:mr-10"
         />
-        <div className="flex justify-end gap-6 order-2 md:order-3 md:gap-6">
-            <span>Mark as correct</span>
-            <span>Remove</span>
-            <input type="checkbox" className="checkbox" />
+        <div className="flex justify-end gap-8 order-2 md:order-3 md:gap-8">
+            <div className="flex gap-2">
+              <Checkbox widthHeight={'w-6 h-6'} checkSize={'w-6 h-6'} onCheck={onCheck} isChecked={isChecked} />
+              <span>Mark as correct</span>
+            </div>
+            <button onClick={onRemove} className="flex gap-3">
+              <span>—</span>
+              <span>Remove</span>
+            </button>
         </div>
     </div>
   )
