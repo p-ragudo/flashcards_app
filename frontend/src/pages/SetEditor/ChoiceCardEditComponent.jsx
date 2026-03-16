@@ -1,22 +1,70 @@
 import { Trash2, Settings2, ToggleLeft, ToggleRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToggleSwitch } from "../../components/ToggleSwitch";
 import OptionComponent from "./OptionComponent";
+import AddOptionComponent from "./AddOptionComponent";
 
 const ChoiceCardEditComponent = ({number}) => {
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
-    const [options, setOptions] = useState([
-        {id: crypto.randomUUID(), text: "", isCorrect: false}
-    ])
-    const [isChecked, setIsChecked] = useState(false);
+    const [options, setOptions] = useState([])
 
-    const toggleCorrect = (id) => {
-        setOptions(prevOptions => {
-            prevOptions.map(option => {
-                option.id === id ? {...option, isCorrect: !option.isCorrect} : option
-            });
-        });
+    const toggleCheckbox = (id) => {
+        setOptions(prevOptions => prevOptions.map(
+            option => option.id === id ? {...option, isCorrect: !option.isCorrect} : option
+        ));
     }
+
+    const addOption = () => {
+        const newOption = {
+            id: crypto.randomUUID(),
+            text: "",
+            isCorrect: false
+        };
+
+        setOptions(prevOptions => [...prevOptions, newOption]);
+    }
+
+    const removeOption = (id) => {
+        setOptions(prevOptions => 
+            prevOptions.filter(option => option.id !== id)
+        );
+    }
+
+    // for testing, fill up options with default vals
+    useEffect(() => {
+        setOptions([
+            {id: crypto.randomUUID(), text: "", isCorrect: false},
+            {id: crypto.randomUUID(), text: "", isCorrect: false}
+        ])
+    }, [])
+
+    // useEffect(() => {
+    //     const loadOptions = async () => {
+    //         try {
+    //             fetch card data
+    //             const data = fetchCardData();
+
+    //             if(data.options && data.options.length > 0) {
+    //                 setOptions(data.options);
+    //             } else {
+    //                 setOptions([
+    //                     {id: crypto.randomUUID(), text: "", isCorrect: false},
+    //                     {id: crypto.randomUUID(), text: "", isCorrect: false}
+    //                 ])
+    //             }
+    //         } catch (e) {
+    //             console.error("Failed to fetchOptions or loadOptions:", e);
+
+    //             setOptions([
+    //                 {id: crypto.randomUUID(), text: "", isCorrect: false},
+    //                 {id: crypto.randomUUID(), text: "", isCorrect: false}
+    //             ])
+
+    //             // notify user using toast
+    //         }
+    //     }
+    //     loadOptions();
+    // }, []);
 
     // test data for OptionComponent
     const data = {
@@ -71,7 +119,19 @@ const ChoiceCardEditComponent = ({number}) => {
                         </button>
                     </div>
                 </div>
-                <OptionComponent data={data} onCheck={() => setIsChecked(!isChecked)} isChecked={isChecked}/>
+
+                {options.map((option, index) => (
+                    <OptionComponent
+                        key={option.id}
+                        data={option} 
+                        index={index + 1}
+                        onCheck={() => toggleCheckbox(option.id)} 
+                        isChecked={option.isCorrect}
+                        onRemove={() => removeOption(option.id)}
+                    />
+                ))};
+
+                <AddOptionComponent onClick={addOption}/>
             </div>
 
         </div>

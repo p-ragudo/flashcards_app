@@ -1,10 +1,10 @@
 import Checkbox from "../../components/Checkbox";
 
-const OptionComponent = ({ data, onCheck, isChecked, onRemove}) => {
+const OptionComponent = ({ data, onCheck, isChecked, onRemove, index}) => {
   return (
     <div className="grid grid-cols-2 md:flex md:flex-row md:justify-between md:items-center">
         <span className="text-[#8C8C8C] font-medium order-1 md:mr-10">
-            Option {data.order ?? 1}
+            Option {index}
         </span>
         <input 
           type="text"

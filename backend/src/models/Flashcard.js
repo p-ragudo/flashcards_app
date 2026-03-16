@@ -25,10 +25,11 @@ const flashcardSchema = new mongoose.Schema(
             required: true
         },
         options: [
-            {type: String}
-        ],
-        correctIndices: [
-            {type: Number}
+            {
+                id: {type: String},
+                text: {type: String},
+                isCorrect: {type: Boolean}
+            }
         ],
         orderIndex: {
             type: Number,

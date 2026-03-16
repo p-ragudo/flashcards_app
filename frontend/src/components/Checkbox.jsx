@@ -5,7 +5,7 @@ const Checkbox = ({ widthHeight, checkSize, onCheck, isChecked }) => {
     <div className="flex items-center justify-center relative">
         <div className=
         {`
-            ${widthHeight} rounded-md flex items-center justify-center border-2
+            ${widthHeight} rounded-md flex items-center justify-center border-2 transition-all
             ${isChecked ? `border-green-500 bg-green-500` :`border-[#334758] bg-white`}
         `}
         onClick={onCheck}
