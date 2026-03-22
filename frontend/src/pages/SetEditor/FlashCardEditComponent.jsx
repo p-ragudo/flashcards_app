@@ -1,13 +1,13 @@
 import { ArrowLeftRight, Trash2, Settings2 } from "lucide-react";
 
-const FlashCardEditComponent = ({number}) => {
+const FlashCardEditComponent = ({data, toggleMode}) => {
 
   return (
     <div className="w-full bg-white rounded-lg shadow-md">
       <div className="flex flex-col px-6 py-5">
         <div className="w-full flex justify-between mb-10">
             <h3 className="font-medium text-[#334758] text-[1.4rem]">
-                {number}
+                {data}
             </h3>
             <div className="flex gap-4">
                 <button className="border border-[#334758] rounded-full p-2 hover:text-white hover:bg-gray-600 transition-colors">
@@ -33,7 +33,10 @@ const FlashCardEditComponent = ({number}) => {
 
             <div className="flex flex-col gap-3">
                 <div className="flex justify-end">
-                    <button className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors">
+                    <button 
+                        className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors"
+                        onClick={toggleMode}
+                    >
                         <Settings2 size={16} />
                         Turn to Multiple Choice
                     </button>

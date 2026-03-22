@@ -1,6 +1,6 @@
 import Checkbox from "../../components/Checkbox";
 
-const OptionComponent = ({ data, onCheck, isChecked, onRemove, index}) => {
+const OptionComponent = ({ option, onCheck, isChecked, onRemove, index, setOptions}) => {
   return (
     <div className="grid grid-cols-2 md:flex md:flex-row md:justify-between md:items-center">
         <span className="text-[#8C8C8C] font-medium order-1 md:mr-10">
@@ -9,6 +9,10 @@ const OptionComponent = ({ data, onCheck, isChecked, onRemove, index}) => {
         <input 
           type="text"
           placeholder="enter option..."
+          value={option.text}
+          onChange={(e) => setOptions(prevOptions => prevOptions.map(
+            opt => opt.id === option.id ? {...opt, text: e.target.value} : opt
+          ))}
           className="
               w-full md:flex-1 p-1 outline-none border-b border-b-[#334758] text-[#334758] text-[1rem] font-normal
               order-3 col-span-2 md:order-2 md:mr-10"

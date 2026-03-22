@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { ToggleSwitch } from "../../components/ToggleSwitch";
 import OptionComponent from "./OptionComponent";
 import AddOptionComponent from "./AddOptionComponent";
+import toast from "react-hot-toast";
 
-const ChoiceCardEditComponent = ({number}) => {
+const ChoiceCardEditComponent = ({data, toggleMode}) => {
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
     const [options, setOptions] = useState([])
 
@@ -25,6 +26,11 @@ const ChoiceCardEditComponent = ({number}) => {
     }
 
     const removeOption = (id) => {
+        if(options.length <= 2) {
+            toast.error("Multiple choice card requires at least 2 options!");
+            return;
+        }
+
         setOptions(prevOptions => 
             prevOptions.filter(option => option.id !== id)
         );
@@ -66,19 +72,12 @@ const ChoiceCardEditComponent = ({number}) => {
     //     loadOptions();
     // }, []);
 
-    // test data for OptionComponent
-    const data = {
-        order: 1,
-        content: "This is option 1",
-        isCorrect: true
-    }
-
   return (
     <div className="w-full bg-white rounded-lg shadow-md">
       <div className="flex flex-col px-6 py-5">
         <div className="w-full flex justify-between mb-10">
             <h3 className="font-medium text-[#334758] text-[1.4rem]">
-                {number}
+                {data}
             </h3>
             <button className="border border-[#334758] rounded-full p-2 hover:text-white hover:bg-[#DE2124] hover:border-[#DE2124] transition-colors">
                 <Trash2 size={24} strokeWidth={2} className="text-[#334758 text-[1.25rem]" />
@@ -113,7 +112,10 @@ const ChoiceCardEditComponent = ({number}) => {
                             />
                             <span className="font-medium text-[#334758]">Randomize choices</span>
                         </div>
-                        <button className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors">
+                        <button 
+                            className="btn btn-sm rounded-full hover:text-white hover:bg-gray-600 transition-colors"
+                            onClick={toggleMode}
+                        >
                             <Settings2 size={16} />
                             Turn to flashcard
                         </button>
@@ -123,9 +125,10 @@ const ChoiceCardEditComponent = ({number}) => {
                 {options.map((option, index) => (
                     <OptionComponent
                         key={option.id}
-                        data={option} 
+                        option={option} 
                         index={index + 1}
                         onCheck={() => toggleCheckbox(option.id)} 
+                        setOptions={setOptions}
                         isChecked={option.isCorrect}
                         onRemove={() => removeOption(option.id)}
                     />

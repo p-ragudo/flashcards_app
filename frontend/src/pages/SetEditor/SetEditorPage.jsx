@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import CreateSetCardComponent from "./CreateSetCardComponent";
 import toast from "react-hot-toast";
-import FlashCardEditComponent from "./FlashCardEditComponent";
-import ChoiceCardEditComponent from "./ChoiceCardEditComponent";
+import CardEditComponent from "./CardEditComponent";
 
 const SetEditorPage = () => {
   const [title, setTitle] = useState("Title");
   const [desc, setDesc] = useState("");
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    setCards([
+      
+    ])
+  }, []);
 
   // TODO
   const handleDelete = async (e) => {
@@ -68,8 +74,7 @@ const SetEditorPage = () => {
         </div>
 
         <div className="flex flex-col gap-12">
-          <FlashCardEditComponent number={1} />
-          <ChoiceCardEditComponent number={2} />
+          <CardEditComponent data={1} />
         </div>
       </div>
     </div>
