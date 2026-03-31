@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import { Github } from 'lucide-react';
+import { nanoid } from "nanoid";
 
 import CreateCard from "./CreateCard.jsx";
 
@@ -31,7 +32,11 @@ const HomePage = () => {
           <span>study, and share flashcards.</span>
         </h2>
 
-        <CreateCard onClick={() => navigate('/create')}/>
+        <CreateCard onClick={() => {
+          const newId = nanoid(12);
+          navigate(`/create/${newId}`);
+          return;
+        }}/>
       </div>
 
       <div className="flex justify-center">

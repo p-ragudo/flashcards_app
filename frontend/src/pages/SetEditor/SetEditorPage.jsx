@@ -1,18 +1,31 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import NavBar from "../../components/NavBar";
 import CreateSetCardComponent from "./CreateSetCardComponent";
 import toast from "react-hot-toast";
 import CardEditComponent from "./CardEditComponent";
+import { nanoid } from "nanoid";
+import axios from "../../lib/axios";
 
 const SetEditorPage = () => {
   const [title, setTitle] = useState("Title");
   const [desc, setDesc] = useState("");
   const [cards, setCards] = useState([]);
 
+  const { editId } = useParams();
+  const viewId = nanoid(12);
+
   useEffect(() => {
-    setCards([
-      
-    ])
+    const initCards = Array.from({length: 2}, (_, index) => ({
+      id: crypto.randomUUID(),
+      cardType: 'basic',
+      question: "",
+      answer: "",
+      options: [],
+      orderIndex: index
+    }));
+
+    setCards(initCards);
   }, []);
 
   // TODO
@@ -33,8 +46,22 @@ const SetEditorPage = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    console.log(`Title: ${title}\nDescription: ${desc}`);
-    toast.success("Successfully Saved!");
+    try {
+      await axios.post('/flashcard-sets', {
+        title,
+        desc,
+        editId,
+        viewId
+      });
+
+      toast.success("Successfully Saved!");
+    } catch(error) {
+      if(error.response === 429) {
+        toast.error("Too many requests! Try again in a bit")
+      } else {
+        toast.error("Failed to save flashcard set");
+      }
+    }
   }
 
   return (
@@ -74,7 +101,12 @@ const SetEditorPage = () => {
         </div>
 
         <div className="flex flex-col gap-12">
-          <CardEditComponent data={1} />
+          {cards.map((card, index) => (
+            <CardEditComponent 
+              key={card.id}
+              index={index+1}
+            />
+          ))}
         </div>
       </div>
     </div>

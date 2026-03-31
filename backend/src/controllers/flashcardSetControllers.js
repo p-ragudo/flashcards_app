@@ -60,7 +60,7 @@ export async function getSetByEditId(req, res) {
 
 export async function createSet(req, res) {
     try {
-        const { title } = req.body;
+        const { title, desc, editId, viewId } = req.body;
 
         if(!title) {
             return res.status(400).json({message: "Title is required!"});
@@ -68,8 +68,9 @@ export async function createSet(req, res) {
 
         const newSet = new FlashcardSet({
             title,
-            editId: nanoid(24),
-            viewId: nanoid(12)
+            desc,
+            editId,
+            viewId
         });
 
         await newSet.save();

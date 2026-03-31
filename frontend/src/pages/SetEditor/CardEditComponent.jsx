@@ -2,7 +2,7 @@ import { useState } from "react";
 import FlashCardEditComponent from "./FlashCardEditComponent";
 import ChoiceCardEditComponent from "./ChoiceCardEditComponent";
 
-const CardEditComponent = ({data}) => {
+const CardEditComponent = ({card, index, updateCard}) => {
     const [isFrontBack, setIsFrontBack] = useState(true);
 
     const toggleMode = () => setIsFrontBack(!isFrontBack);
@@ -11,8 +11,14 @@ const CardEditComponent = ({data}) => {
     <div className="w-full mx-auto">
       {
         isFrontBack 
-          ? <FlashCardEditComponent data={data} toggleMode={toggleMode} />
-          : <ChoiceCardEditComponent data={data} toggleMode={toggleMode} />
+          ? <FlashCardEditComponent 
+            index={index} 
+            toggleMode={toggleMode} 
+          />
+          : <ChoiceCardEditComponent 
+            index={index}
+            toggleMode={toggleMode} 
+          />
       }
     </div>
   )

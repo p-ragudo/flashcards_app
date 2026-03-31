@@ -1,13 +1,13 @@
 import { ArrowLeftRight, Trash2, Settings2 } from "lucide-react";
 
-const FlashCardEditComponent = ({data, toggleMode}) => {
+const FlashCardEditComponent = ({card, index, updateCard, toggleMode}) => {
 
   return (
     <div className="w-full bg-white rounded-lg shadow-md">
       <div className="flex flex-col px-6 py-5">
         <div className="w-full flex justify-between mb-10">
             <h3 className="font-medium text-[#334758] text-[1.4rem]">
-                {data}
+                {index}
             </h3>
             <div className="flex gap-4">
                 <button className="border border-[#334758] rounded-full p-2 hover:text-white hover:bg-gray-600 transition-colors">

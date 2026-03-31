@@ -5,7 +5,7 @@ import OptionComponent from "./OptionComponent";
 import AddOptionComponent from "./AddOptionComponent";
 import toast from "react-hot-toast";
 
-const ChoiceCardEditComponent = ({data, toggleMode}) => {
+const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
     const [options, setOptions] = useState([])
 
@@ -77,7 +77,7 @@ const ChoiceCardEditComponent = ({data, toggleMode}) => {
       <div className="flex flex-col px-6 py-5">
         <div className="w-full flex justify-between mb-10">
             <h3 className="font-medium text-[#334758] text-[1.4rem]">
-                {data}
+                {index}
             </h3>
             <button className="border border-[#334758] rounded-full p-2 hover:text-white hover:bg-[#DE2124] hover:border-[#DE2124] transition-colors">
                 <Trash2 size={24} strokeWidth={2} className="text-[#334758 text-[1.25rem]" />

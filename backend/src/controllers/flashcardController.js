@@ -1,6 +1,5 @@
 import Flashcard from "../models/Flashcard.js";
 import FlashcardSet from "../models/FlashcardSet.js";
-import { multipleChoiceStr } from "../models/Flashcard.js";
 
 export async function createFlashcard(req, res) {
     try {
@@ -11,7 +10,7 @@ export async function createFlashcard(req, res) {
             return res.status(400).json({bad_request: "Missing params in body. Required: 'question, answer, cardType, options, correctIndices'"});
         }
 
-        if(cardType === multipleChoiceStr) {
+        if(cardType === 'multiple-choice') {
             if(!options || options.length < 2) {
                 return res.status(400).json({bad_request: "Multiple choice requires at least 2 options"});
             }
@@ -30,8 +29,8 @@ export async function createFlashcard(req, res) {
             cardType: cardType,
             question: question,
             answer: answer,
-            options: cardType === multipleChoiceStr ? options : [],
-            correctIndices: cardType === multipleChoiceStr ? correctIndices : []
+            options: cardType === 'multiple-choice' ? options : [],
+            correctIndices: cardType === 'multiple-choice' ? correctIndices : []
         });
 
         await flashcard.save();

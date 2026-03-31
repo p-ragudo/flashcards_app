@@ -7,6 +7,10 @@ const flashcardSetSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        desc: {
+            type: String,
+            trim: true
+        },
         editId: {
             type: String,
             required: true,
