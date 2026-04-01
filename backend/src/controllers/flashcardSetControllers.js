@@ -58,23 +58,30 @@ export async function getSetByEditId(req, res) {
     }
 }
 
-export async function createSet(req, res) {
+export async function createSaveSet(req, res) {
     try {
-        const { title, desc, editId, viewId } = req.body;
+        const { title, desc, editId } = req.body;
 
         if(!title) {
             return res.status(400).json({message: "Title is required!"});
         }
 
-        const newSet = new FlashcardSet({
-            title,
-            desc,
-            editId,
-            viewId
-        });
+        await FlashcardSet.findOneAndUpdate(
+            {editId: editId},
+            {
+                title,
+                desc,
+                editId,
+                $setOnInsert: { viewId: nanoid(10) }
+            },
+            {
+                upsert: true,
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
 
-        await newSet.save();
-        res.status(201).json({message: "New set created successfully!"});
+        res.status(200).json({message: "New set created successfully!"});
     } catch(error) {
         console.log("Error in createSet function", error);
         res.status(500).json({message: "Internal server error"});

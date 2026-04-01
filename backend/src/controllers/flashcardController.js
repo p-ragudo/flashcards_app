@@ -1,10 +1,10 @@
 import Flashcard from "../models/Flashcard.js";
 import FlashcardSet from "../models/FlashcardSet.js";
 
-export async function createFlashcard(req, res) {
+export async function createSaveFlashcard(req, res) {
     try {
         const { editId } = req.params;
-        const { question, answer, cardType, options, correctIndices } = req.body;
+        const { cardId, question, answer, cardType, options, correctIndices } = req.body;
 
         if(!question || !answer) {
             return res.status(400).json({bad_request: "Missing params in body. Required: 'question, answer, cardType, options, correctIndices'"});
@@ -24,17 +24,29 @@ export async function createFlashcard(req, res) {
             return res.status(404).json({message: `Could not find or validate flashcardSet with id ${editId}`});
         }
 
-        const flashcard = new Flashcard({
+        const query = { _id: cardId || new mongoose.Types.ObjectId()}
+
+        const updatedCard = {
             setId: flashcardSet._id,
-            cardType: cardType,
-            question: question,
-            answer: answer,
+            cardType,
+            question,
+            answer,
             options: cardType === 'multiple-choice' ? options : [],
             correctIndices: cardType === 'multiple-choice' ? correctIndices : []
-        });
+        };
 
-        await flashcard.save();
-        res.status(201).json({message: "Flashcard successfully created!"});
+        await Flashcard.findOneAndUpdate(
+            query,
+            updatedCard,
+            {
+                upsert: true,
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        const status = cardId ? 200 : 201;
+        res.status(status).json({message: "Flashcard successfully created!"});
     } catch(error) {
         console.log("Error in createFlashcard()", error);
         res.status(500).json({message: "Internal server error"});
