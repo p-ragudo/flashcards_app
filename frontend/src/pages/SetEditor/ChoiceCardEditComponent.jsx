@@ -44,34 +44,6 @@ const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
         ])
     }, [])
 
-    // useEffect(() => {
-    //     const loadOptions = async () => {
-    //         try {
-    //             fetch card data
-    //             const data = fetchCardData();
-
-    //             if(data.options && data.options.length > 0) {
-    //                 setOptions(data.options);
-    //             } else {
-    //                 setOptions([
-    //                     {id: crypto.randomUUID(), text: "", isCorrect: false},
-    //                     {id: crypto.randomUUID(), text: "", isCorrect: false}
-    //                 ])
-    //             }
-    //         } catch (e) {
-    //             console.error("Failed to fetchOptions or loadOptions:", e);
-
-    //             setOptions([
-    //                 {id: crypto.randomUUID(), text: "", isCorrect: false},
-    //                 {id: crypto.randomUUID(), text: "", isCorrect: false}
-    //             ])
-
-    //             // notify user using toast
-    //         }
-    //     }
-    //     loadOptions();
-    // }, []);
-
   return (
     <div className="w-full bg-white rounded-lg shadow-md">
       <div className="flex flex-col px-6 py-5">
@@ -132,7 +104,7 @@ const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
                         isChecked={option.isCorrect}
                         onRemove={() => removeOption(option.id)}
                     />
-                ))};
+                ))}
 
                 <AddOptionComponent onClick={addOption}/>
             </div>
