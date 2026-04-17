@@ -7,7 +7,14 @@ import toast from "react-hot-toast";
 
 const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
     const [isRandomizeChoices, setIsRandomizeChoices] = useState(false);
-    const [options, setOptions] = useState([])
+    const [options, setOptions] = useState(card.options?.length > 0 ? card.options : [
+        {id: crypto.randomUUID(), text: "", isCorrect: false},
+        {id: crypto.randomUUID(), text: "", isCorrect: false}
+    ]);
+
+    useEffect(() => {
+        updateCard({options: options});
+    }, [options]);
 
     const toggleCheckbox = (id) => {
         setOptions(prevOptions => prevOptions.map(
@@ -36,13 +43,11 @@ const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
         );
     }
 
-    // for testing, fill up options with default vals
-    useEffect(() => {
-        setOptions([
-            {id: crypto.randomUUID(), text: "", isCorrect: false},
-            {id: crypto.randomUUID(), text: "", isCorrect: false}
-        ])
-    }, [])
+    const handleOptionChange = (id, newText) => {
+        setOptions(prevOptions => prevOptions.map(
+            option => option.id == id ? {...option, text: newText} : option
+        ));
+    }
 
   return (
     <div className="w-full bg-white rounded-lg shadow-md">
@@ -61,6 +66,8 @@ const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
                 <input 
                 type="text"
                 placeholder="Enter question"
+                value={card.question}
+                onChange={(e) => updateCard({question: e.target.value})}
                 className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
                 />
                 <p className="font-medium text-[#334758] text-sm">
@@ -100,8 +107,8 @@ const ChoiceCardEditComponent = ({card, index, updateCard, toggleMode}) => {
                         option={option} 
                         index={index + 1}
                         onCheck={() => toggleCheckbox(option.id)} 
-                        setOptions={setOptions}
                         isChecked={option.isCorrect}
+                        onTextChange={(val) => handleOptionChange(option.id, val)}
                         onRemove={() => removeOption(option.id)}
                     />
                 ))}

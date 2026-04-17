@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Flashcard from "../models/Flashcard.js";
 import FlashcardSet from "../models/FlashcardSet.js";
 
@@ -49,7 +50,7 @@ export async function createSaveFlashcard(req, res) {
         res.status(status).json({message: "Flashcard successfully created!"});
     } catch(error) {
         console.log("Error in createFlashcard()", error);
-        res.status(500).json({message: "Internal server error"});
+        res.status(500).json({message: "Internal server error at createSaveFlashcard()"});
     }
 }
 

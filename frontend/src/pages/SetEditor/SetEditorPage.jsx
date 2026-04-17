@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { data, useParams } from "react-router";
 import NavBar from "../../components/NavBar";
 import CreateSetCardComponent from "./CreateSetCardComponent";
 import toast from "react-hot-toast";
@@ -10,21 +10,60 @@ const SetEditorPage = () => {
   const [title, setTitle] = useState("Title");
   const [desc, setDesc] = useState("");
   const [cards, setCards] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   const { editId } = useParams();
 
-  useEffect(() => {
-    const initCards = Array.from({length: 2}, (_, index) => ({
-      id: crypto.randomUUID(),
-      cardType: 'basic',
-      question: "",
-      answer: "",
-      options: [],
-      orderIndex: index
-    }));
+  const updateCardState = (id, updatedFields) => {
+    setCards((prev) =>
+      prev.map((card) => (card.id === id ? { ...card, ...updatedFields } : card))
+    );
+  };
 
-    setCards(initCards);
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const initCards = Array.from({ length: 2 }, (_, index) => ({
+        id: crypto.randomUUID(),
+        mongoId: null,
+        cardType: 'basic',
+        question: "",
+        answer: "",
+        options: [],
+        orderIndex: index
+      }));
+
+      try {
+        const { data } = await axios.get(`/flashcard-sets/edit/${editId}`);
+
+        setTitle(data.title);
+        setDesc(data.desc || "");
+
+        if(data.flashcards && data.flashcards.length > 0) {
+          const fetchedCards = data.flashcards.map((card) => ({
+            id: crypto.randomUUID(),
+            mongoId: card._id,
+            question: card.question,
+            answer: card.answer,
+            cardType: card.cardType,
+            options: card.options || [],
+            correctIndices: card.correctIndices || [],
+            orderIndex: card.orderIndex
+          }));
+          setCards(fetchedCards);
+        }
+      } catch(error) {
+        if(error.response?.status === 404) {
+          setCards(initCards);
+        } else {
+          toast.error("An error occured loading the set. Please try again");
+        }
+      }
+    };
+    
+    if(editId) {
+      fetchData();
+    }
+  }, [editId]);
 
   // TODO
   const handleDelete = async (e) => {
@@ -43,7 +82,9 @@ const SetEditorPage = () => {
   // TODO
   const handleSave = async (e) => {
     e.preventDefault();
+    if(isSaving) return;
 
+    setIsSaving(true);
     try {
       await axios.post('/flashcard-sets', {
         title,
@@ -65,8 +106,8 @@ const SetEditorPage = () => {
       const results = await Promise.all(saveCardPromises);
 
       const updatedCards = cards.map((card, index) => ({
-          ...card,
-          mongoId: results[index].data.card._id
+        ...card,
+        mongoId: results[index].data.flashcard?._id || results[index].data.card?._id,
       }));
       setCards(updatedCards);
 
@@ -77,6 +118,8 @@ const SetEditorPage = () => {
       } else {
         toast.error("Failed to save flashcard set");
       }
+    } finally {
+      setIsSaving(false);
     }
   }
 
@@ -120,7 +163,9 @@ const SetEditorPage = () => {
           {cards.map((card, index) => (
             <CardEditComponent 
               key={card.id}
+              card={card}
               index={index+1}
+              updateCard={(fields) => updateCardState(card.id, fields)}
             />
           ))}
         </div>

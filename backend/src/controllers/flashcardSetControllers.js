@@ -21,6 +21,7 @@ export async function getSetByViewId(req, res) {
 
         res.status(200).json({
             title: flashcardSet.title,
+            desc: flashcardSet.desc,
             count: flashcards.length,
             flashcards: flashcards
         });
@@ -49,6 +50,7 @@ export async function getSetByEditId(req, res) {
 
         res.status(200).json({
             title: flashcardSet.title,
+            desc: flashcardSet.desc,
             count: flashcards.length,
             flashcards: flashcards
         });

@@ -24,6 +24,8 @@ const FlashCardEditComponent = ({card, index, updateCard, toggleMode}) => {
                 <input 
                 type="text"
                 placeholder="Enter front term..."
+                value={card.question}
+                onChange={(e) => updateCard({question: e.target.value})}
                 className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
                 />
                 <p className="font-medium text-[#334758] text-sm">
@@ -45,6 +47,8 @@ const FlashCardEditComponent = ({card, index, updateCard, toggleMode}) => {
                     <input 
                     type="text"
                     placeholder="Enter back term..."
+                    value={card.answer}
+                    onChange={(e) => updateCard({answer: e.target.value})}
                     className=" w-full p-3 outline-none bg-[#DDDDE5] rounded-md text-[#334758] text-[1.05rem] font-medium"
                     />
                     <p className="font-medium text-[#334758] text-sm">
